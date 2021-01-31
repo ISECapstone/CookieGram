@@ -1,0 +1,78 @@
+package com.zenofprogramming.cookiegram.dispatchers;
+import com.zenofprogramming.cookiegram.CookieGram;
+import com.zenofprogramming.cookiegram.domainobjects.CookieOrder;
+import com.zenofprogramming.cookiegram.dto.OrderRequest;
+import com.zenofprogramming.cookiegram.dto.OrderRequestResponse;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+/**
+ * @author Rich Smith at ZenOfProgramming.com
+ */
+@Controller
+public class RESTDispatcher
+{
+
+   @RequestMapping("/easteregg")
+   public String helloWorld ()
+   {
+      return "Yay!!! Hello CookieGram!";
+   }
+
+   @GetMapping("/")
+   public String landingPage ()
+   {
+      return "landingpage.html";
+   }
+
+   @GetMapping("/ordercookie")
+   public String orderCookieForm (Model model)
+   {
+      model.addAttribute(new OrderRequest("", "", "", "", "", "", "", "", LocalDate.now()));
+      model.addAttribute("message", "Hurray!  Our chefs are very exited and can't wait to start baking!  Please fill out this form:");
+      return "ordercookieform.html";
+   }
+
+   @PostMapping("/ordercookie")
+   public String orderCookie (Model model, @ModelAttribute OrderRequest orderRequest)
+   {
+      OrderRequestResponse requestResponse = CookieGram.instanceOfOrderManager().createOrder(orderRequest);
+      model.addAttribute("response", requestResponse);
+      model.addAttribute("message", requestResponse.getReturnMessageToUser());
+      return requestResponse.getHtmlPage();
+   }
+
+   @GetMapping("/viewnextsevendaysbaking")
+   public String viewNextSevenDaysBakingOrders (Model model)
+   {
+      List<CookieOrder> orders = CookieGram.instanceOfOrderManager().getnextSevenDaysBakingOrders();
+      List<String> status = new ArrayList<String>();
+      status.add("Not Paid");
+      status.add("Pending");
+      status.add("Baked");
+      status.add("Delivered");
+      model.addAttribute("status", status);
+      model.addAttribute("orders", orders);
+      return "viewnextsevendaysbaking.html";
+   }
+
+//   @RequestMapping("/completeBake")
+//   public String completeBake (Model model, @ModelAttribute CookieOrder order)
+//   {
+//      System.out.println("Yay!!! " + order.toString());
+//      return "redirect:/viewtodaysbaking";
+//   }
+
+
+   @GetMapping(value = "/completebake/{orderId}")
+   public String updateOrder (@PathVariable int orderId)
+   {
+      System.out.println("Yay!");
+      System.out.println(orderId);
+      return "redirect:/viewnextsevendaysbaking";
+   }
+
+}

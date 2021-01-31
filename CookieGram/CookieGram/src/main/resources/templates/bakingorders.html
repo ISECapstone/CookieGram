@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html  lang ="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th ="http://www.thymeleaf.org">
+    <head>
+        <title>Cookie Order Form</title>
+        <!--/*/ <th:block th:include="fragments/fragments.html :: headerfiles"></th:block> /*/-->
+    </head>
+    <body >
+        <div class="w-75 p-3" >
+            <div class="container">
+                <h1 class="jumbotron">Next 7 Days Baking Orders</h1>
+            </div>
+            <div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th> Customer </th>
+                            <th> Recipient </th>
+                            <th> Message </th>
+                            <th> Ship Date </th>
+                            <th> Status </th>
+                            <th> Update </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td><span th:text="${order.customerName}"> customer </span></td>
+                            <td><span th:text="${order.recipientName}"> recipient </span></td>
+                            <td><span th:text="${order.cookieMessage}"> message </span></td>
+                            <td><span th:text="${order.shipDate}"> date </span></td>
+                            <td><select th:field="*{status}">
+                                    <option th:each="selection : ${status}" th:value="${selection}" th:text="${selection}"></option>
+                                </select>        
+                            </td>
+                            <td><a class="btn btn-primary" th:href="@{'/completeBake/'+${order.orderNumber}}"> Update Status </a></td>
+
+
+                        </tr>
+                    </tbody>
+                </table> 
+                <form action="#" th:action="@{/}" >
+                    <input type ="submit" value ="Return to Landing Page"/>
+                </form>
+            </div>
+            <!--<a th:replace ="fragments/fragments.html :: bootstrapstuff "></a>-->
+        </div>
+    </body>
+</html>
