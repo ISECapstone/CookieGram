@@ -14,33 +14,34 @@ import java.util.List;
 public class OrderManager
 {
    private final int MINIMUMLEADTIME = 2;
+  
 
    public OrderRequestResponse createOrder (OrderRequest orderRequest)
    {
       if (this.orderDateInPast(orderRequest)) {
          String userMessage = "Sorry, your order date is in the past.  Please correct and resubmit your order";
-         return new OrderRequestResponse(false, userMessage, "ordercookieform.html");
+         return new OrderRequestResponse(false, null,userMessage, "ordercookieform.html");
       }
       if (this.orderDateIsTooSoonToToday(orderRequest)) {
          String userMessage = "Sorry, your order date must be at least two days from now.  Please correct and resubmit your order!";
-         return new OrderRequestResponse(false, userMessage, "ordercookieform.html");
+         return new OrderRequestResponse(false,null, userMessage, "ordercookieform.html");
       }
 
       if (this.atMaxOrdersForThisDate(orderRequest)) {
          String userMessage = "Sorry, we are at our maximum number of orders for that date.  Is there another date that might work?";
-         return new OrderRequestResponse(false, userMessage, "ordercookieform.html");
+         return new OrderRequestResponse(false, null,userMessage, "ordercookieform.html");
       }
 
       if (!CookieGram.instanceOfShippingManager().verifyValidShippingAddress(orderRequest)) {
          String userMessage = "Sorry, we can't ship to that address ";
-         return new OrderRequestResponse(false, userMessage, "ordercookieform.html");
+         return new OrderRequestResponse(false, null,userMessage, "ordercookieform.html");
       }
 
       CookieOrder cookieOrder = this.buildCookieOrder(orderRequest);
       CookieGram.instanceOfOrderPersistanceManager().saveOrderToRepository(cookieOrder);
 
       String userMessage = "Thank you for your order!  Our chefs are busily tying their aprons and setting their chef hats firmly in place to bake your order to be delivered on " + orderRequest.getDeliveryDate() + "!!!";
-      return new OrderRequestResponse(true, userMessage, "paymentform.html");
+      return new OrderRequestResponse(true, cookieOrder,userMessage, "paymentform.html");
 
    }
 

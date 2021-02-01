@@ -7,6 +7,8 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class OrderRequest
 {
 //   private int orderNumber;

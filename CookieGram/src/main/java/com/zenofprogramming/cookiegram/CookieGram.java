@@ -24,11 +24,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CookieGram
 {
-   static SettingsPersistanceManager settingsPersistanceManager;
-   static OrderPersistanceManager orderPersistanceManager;
-   static ShippingManager shippingManager;
-   static PaymentManager paymentManager;
-   static OrderManager orderManager;
+   private static SettingsPersistanceManager settingsPersistanceManager;
+   private static OrderPersistanceManager orderPersistanceManager;
+   private static ShippingManager shippingManager;
+   private static PaymentManager paymentManager;
+   private static OrderManager orderManager;
 
    public static void main (String[] args)
    {

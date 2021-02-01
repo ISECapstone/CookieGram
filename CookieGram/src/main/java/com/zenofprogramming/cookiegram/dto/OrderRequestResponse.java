@@ -1,4 +1,6 @@
 package com.zenofprogramming.cookiegram.dto;
+import com.zenofprogramming.cookiegram.domainobjects.CookieOrder;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 /**
@@ -10,8 +12,9 @@ import lombok.Data;
 public class OrderRequestResponse
 {
 //   private RequestResponseType responseType;
-   private boolean success = true;
-   private String returnMessageToUser;
-   private String htmlPage;
+	   private boolean success = true;
+	   private CookieOrder cookieOrder;
+	   private String returnMessageToUser;
+	   private String htmlPage;
 
 }
